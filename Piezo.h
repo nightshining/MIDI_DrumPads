@@ -5,9 +5,9 @@ class Piezo_Drum
     int channel;  // General MIDI: channel 10 = percussion sounds
     int note;     // General MIDI: note 38 = acoustic snare
     
-    const int thresholdMin = 60;  // minimum reading, avoid noise and false starts
+    const int thresholdMin = 100;  // minimum reading, avoid noise and false starts
     const unsigned int peakTrackMillis = 12;
-    const unsigned int aftershockMillis = 25; // aftershocks & vibration reject
+    const unsigned int aftershockMillis = 40; // aftershocks & vibration reject
     int state;  // 0=idle, 1=looking for peak, 2=ignore aftershocks
     int peak;   // remember the highest reading
     elapsedMillis msec; // timer to end states 1 and 2
@@ -52,7 +52,8 @@ class Piezo_Drum
           //Serial.println(peak);
           int velocity = map(peak, thresholdMin, 1023, 1, 127);
           usbMIDI.sendNoteOn(note, velocity, channel);
-          Serial.println("Sending MIDI");
+//          Serial.println("MIDI Note:" + note);
+          digitalWrite(LED_BUILTIN, HIGH);
 
           msec = 0;
           state = 2;
@@ -65,6 +66,8 @@ class Piezo_Drum
           msec = 0; // keep resetting timer if above threshold
         } else if (msec > aftershockMillis) {
           usbMIDI.sendNoteOff(note, 0, channel);
+          digitalWrite(LED_BUILTIN, LOW);
+
           state = 0; // go back to idle when
         }
     }
