@@ -8,3 +8,4 @@ This repo includes code used with the [Teensy 3.2](https://www.pjrc.com/store/te
 
 ![](https://github.com/nightshining/MIDI_DrumPads/blob/master/assets/Teensy3.2.png?raw=true)
 
+![](https://github.com/nightshining/MIDI_DrumPads/blob/master/assets/build.jpg?raw=true)
